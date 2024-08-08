@@ -4,11 +4,34 @@ const props = defineProps<{
     name: string;
   };
 }>();
+
+const dictionary: Record<string, string> = {
+  grass: "planta",
+  poison: "veneno",
+  fire: "fuego",
+  flying: "volador",
+  water: "agua",
+  bug: "bicho",
+  normal: "normal",
+  electric: "eléctrico",
+  ground: "tierra",
+  fairy: "hada",
+  fighting: "lucha",
+  psychic: "psíquico",
+  rock: "roca",
+  steel: "acero",
+  ice: "hielo",
+  ghost: "fantasma",
+  dragon: "dragón",
+  dark: "siniestro",
+  unknown: "desconocido",
+  shadow: "sombra",
+};
 </script>
 
 <template>
   <div class="pill mx-1" :class="`type-${props.type.name}`">
-    {{ props.type.name }}
+    {{ dictionary[props.type.name] }}
   </div>
 </template>
 

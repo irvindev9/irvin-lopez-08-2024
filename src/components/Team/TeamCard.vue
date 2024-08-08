@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, onUpdated, ref } from 'vue';
 import Type from '../Partials/Type.vue';
+import Stats from './Stats.vue';
 import { Pokemon } from '../../models/Pokemon';
 import { useSiteStore } from '../../stores/SiteStore';
 import { usePokemonStore } from '../../stores/PokemonStore';
@@ -73,18 +74,7 @@ function removePokemonFromTeam() {
       </div>
     </div>
     <div class="row g-0">
-      <div class="col-12 text-center">
-        <p>
-          <b>Estadisticas</b>
-        </p>
-      </div>
-      <div class="col-12 px-2" v-if="pokemonInfo.stats">
-        <div v-for="(stat, index) in pokemonInfo.stats" class="progress mb-1" role="progressbar" :key="index">
-          <div class="progress-bar bg-success" :style="{width: `${stat.base_stat}%`}">
-            {{ stat.stat.name }}: {{stat.base_stat}}
-          </div>
-        </div>
-      </div>
+      <Stats :pokemonInfo="pokemonInfo" />
     </div>
     <div class="row g-0">
       <div class="d-grid gap-2 mt-3">
@@ -114,10 +104,6 @@ audio {
   width: 100%;
   padding: 0 1em;
   height: 30px;
-}
-
-.progress-bar {
-  text-transform: capitalize;
 }
 
 .pokemon-img:hover {

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Loader from './Partials/Loader.vue'
 </script>
 
 <template>
@@ -27,6 +28,7 @@
     <div class="container">
       <slot></slot>
     </div>
+    <Loader />
   </div>
 </template>
 

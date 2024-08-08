@@ -15,7 +15,6 @@ export const usePokemonStore = defineStore('pokemon', {
       this.selectedPokemons = this.pokemonTeam.length;
     },
     isPokemonSelected(pokemon: any) {
-      console.log({pokemon});
       return this.pokemonTeam.some((p: any) => {
         return p.name === pokemon.name;
       });

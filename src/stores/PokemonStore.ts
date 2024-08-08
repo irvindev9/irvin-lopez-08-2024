@@ -8,6 +8,9 @@ export const usePokemonStore = defineStore('pokemon', {
   }),
   actions: {
     addPokemon(pokemon: Pokemon) {
+      if (this.pokemonTeam.length >= 6) {
+        return;
+      }
       this.pokemonTeam = [...this.pokemonTeam, {
         ...pokemon,
         id: Number(pokemon.url.split("/")[6]),

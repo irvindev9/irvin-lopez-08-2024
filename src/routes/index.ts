@@ -1,9 +1,15 @@
-import HelloWorld from '../components/Home.vue';
+import Home from '../components/Home.vue';
+import Team from '../components/Team.vue';
 
 export default [
   {
     path: '/',
     name: 'Home',
-    component: HelloWorld,
+    component: Home,
+  },
+  {
+    path: '/team',
+    name: 'Team',
+    component: Team,
   }
 ];

@@ -4,9 +4,9 @@ import PokemonCard from './Home/PokemonCard.vue';
 import { getPokemonList } from '../api';
 import { usePokemonStore } from '../stores/PokemonStore';
 import { useSiteStore } from '../stores/SiteStore';
-import { Pokemon, Pokemons } from '../models/Pokemon';
+import { Pokemon } from '../models/Pokemon';
 
-const pokemonList = ref<Pokemons>([]);
+const pokemonList = ref<Pokemon[]>([]);
 const page = ref<number>(1);
 
 const pokemonStore = usePokemonStore();
@@ -21,7 +21,7 @@ onMounted(async () => {
 async function loadMore() {
   page.value++;
   siteStore.setLoader(true);
-  const newPokemonList: Pokemons = await getPokemonList(page.value);
+  const newPokemonList: Pokemon[] = await getPokemonList(page.value);
   pokemonList.value = [...pokemonList.value, ...newPokemonList];
   siteStore.turnOffLoader();
 }

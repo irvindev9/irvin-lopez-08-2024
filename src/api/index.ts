@@ -20,3 +20,9 @@ export const getPokemonList = async (page: number) => {
 
   return data.results;
 }
+
+export const getPokemonInfo = async (pokemonNumber: number) => {
+  const { data } = await axios.get(`${url}pokemon/${pokemonNumber}`);
+
+  return data;
+}

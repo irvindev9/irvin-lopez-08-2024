@@ -1,22 +1,29 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import Pokemon from './Home/Pokemon.vue';
+import PokemonCard from './Home/PokemonCard.vue';
 import { getPokemonList } from '../api';
 import { usePokemonStore } from '../stores/PokemonStore';
+import { useSiteStore } from '../stores/SiteStore';
+import { Pokemon, Pokemons } from '../models/Pokemon';
 
-const pokemonList = ref([]);
+const pokemonList = ref<Pokemons>([]);
 const page = ref<number>(1);
 
 const pokemonStore = usePokemonStore();
+const siteStore = useSiteStore();
 
 onMounted(async () => {
+  siteStore.setLoader(true);
   pokemonList.value = await getPokemonList(1);
+  siteStore.turnOffLoader();
 });
 
 async function loadMore() {
   page.value++;
-  const newPokemonList = await getPokemonList(page.value);
+  siteStore.setLoader(true);
+  const newPokemonList: Pokemons = await getPokemonList(page.value);
   pokemonList.value = [...pokemonList.value, ...newPokemonList];
+  siteStore.turnOffLoader();
 }
 </script>
 
@@ -28,7 +35,7 @@ async function loadMore() {
       </div>
     </div>
     <div class="row pokemon-container">
-      <Pokemon v-for="(pokemon, index) in pokemonList" :key="index" :pokemon="pokemon" />
+      <PokemonCard v-for="(pokemon, index) in pokemonList" :key="index" :pokemon="pokemon" />
     </div>
     <div class="row justify-content-center" v-if="pokemonList.length < 151">
       <div class="col text-center py-3">

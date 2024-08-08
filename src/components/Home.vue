@@ -1,8 +1,22 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import Pokemon from './Home/Pokemon.vue';
+import { getPokemonList } from '../api';
+import { usePokemonStore } from '../stores/PokemonStore';
 
-function getImageUrl(pokemonId: number) {
-  console.log(`../assets/pokemons/${pokemonId.toString().padStart(3, "0")}.png`, import.meta.url);
-  return new URL(`../assets/pokemons/${pokemonId.toString().padStart(3, "0")}.png`, import.meta.url).href;
+const pokemonList = ref([]);
+const page = ref<number>(1);
+
+const pokemonStore = usePokemonStore();
+
+onMounted(async () => {
+  pokemonList.value = await getPokemonList(1);
+});
+
+async function loadMore() {
+  page.value++;
+  const newPokemonList = await getPokemonList(page.value);
+  pokemonList.value = [...pokemonList.value, ...newPokemonList];
 }
 </script>
 
@@ -10,35 +24,16 @@ function getImageUrl(pokemonId: number) {
   <div class="container">
     <div class="row justify-content-center">
       <div class="col text-center pt-3">
-        <h3>Selecciona a tu equipo (6 restantes)</h3>
+        <h3>Selecciona a tu equipo ({{6 - pokemonStore.selectedPokemons}} restantes)</h3>
       </div>
     </div>
     <div class="row pokemon-container">
-      <div class="col-2 p-3" v-for="a in 151" :key="a">
-        <div class="card">
-          <div class="p-3">
-            <img :src="getImageUrl(a)" class="card-img-top pokemon-img-selected">
-          </div>
-          <div class="card-body">
-            <h5 class="card-title">Bulbasaur</h5>
-            <p class="card-text">Tipo: Planta</p>
-            <div class="d-grid gap-2">
-              <a href="#" class="btn btn-primary btn-sm bg-primary-glass">Agregar</a>
-            </div>
-          </div>
-        </div>
+      <Pokemon v-for="(pokemon, index) in pokemonList" :key="index" :pokemon="pokemon" />
+    </div>
+    <div class="row justify-content-center" v-if="pokemonList.length < 151">
+      <div class="col text-center py-3">
+        <button @click="loadMore" class="btn btn-primary bg-primary-glass">Cargar más</button>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.pokemon-img-selected {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
-
-.pokemon-img-selected:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-  
-}
-</style>

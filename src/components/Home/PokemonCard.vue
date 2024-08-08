@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onBeforeMount, ref, onMounted } from 'vue';
 import { usePokemonStore } from '../../stores/PokemonStore';
+import { Pokemon } from '../../models/Pokemon';
 
 const props = defineProps<{
-  pokemon: any;
+  pokemon: Pokemon;
 }>();
 
 const pokemonStore = usePokemonStore();
@@ -12,7 +13,7 @@ const pokemonId = ref(0);
 const isSelected = ref(false);
 
 onBeforeMount(() => {
-  pokemonId.value = props.pokemon.url.split("/")[6];
+  pokemonId.value = Number(props.pokemon.url.split("/")[6]);
 })
 
 onMounted(() => {
@@ -41,12 +42,26 @@ function toggleSelection() {
   <div class="col-xl-2 col-lg-3 col-md-4 col-6 p-3">
     <div class="card">
       <div class="p-3">
-        <img :src="getImageUrl(pokemonId)" class="card-img-top pokemon-img" :class="{'pokemon-img-selected': isSelected}" :alt="`pokemon-${pokemonId}`">
+        <img 
+          :src="getImageUrl(pokemonId)" 
+          class="card-img-top pokemon-img" 
+          :class="{'pokemon-img-selected': isSelected}" 
+          :alt="`pokemon-${pokemonId}`"
+        >
       </div>
       <div class="card-body text-center">
         <h5 class="card-title">{{pokemon.name}}</h5>
         <div class="d-grid gap-2">
-          <button class="btn btn-primary btn-sm bg-primary-glass" @click="toggleSelection">
+          <button 
+            class="btn btn-sm" 
+            :class="{
+              'lock-selection': pokemonStore.selectedPokemons >= 6 && !isSelected, 
+              'bg-success-glass': isSelected,
+              'bg-primary-glass': !isSelected
+            }" 
+            @click="toggleSelection" 
+            :disabled="pokemonStore.selectedPokemons >= 6 && !isSelected"
+          >
             {{isSelected ? 'Deseleccionar' : 'Seleccionar'}}
           </button>
         </div>
@@ -67,4 +82,30 @@ function toggleSelection() {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 
+.bg-primary-glass {
+  background: rgba(13, 110, 253, 0.47);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(13, 110, 253, 0.3);
+}
+
+.bg-success-glass {
+  background: rgba(66, 184, 131, 0.6666666666666666);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(66, 184, 131, 0.3);
+}
+
+.lock-selection {
+  background: rgba(140, 140, 140, 0.75);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(140, 140, 140, 0.3);
+}
 </style>

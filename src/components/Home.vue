@@ -7,15 +7,13 @@ import { useSiteStore } from '../stores/SiteStore';
 import { Pokemon } from '../models/Pokemon';
 
 const pokemonList = ref<Pokemon[]>([]);
-const page = ref<number>(1);
+const page = ref<number>(0);
 
 const pokemonStore = usePokemonStore();
 const siteStore = useSiteStore();
 
 onMounted(async () => {
-  siteStore.setLoader(true);
-  pokemonList.value = await getPokemonList(1);
-  siteStore.turnOffLoader();
+  await loadMore();
 });
 
 async function loadMore() {

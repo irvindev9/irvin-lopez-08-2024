@@ -20,7 +20,7 @@ import Loader from './Partials/Loader.vue'
             </li>
           </ul>
           <span class="navbar-text">
-            <RouterLink class="nav-link text-light" activeClass="active" to="/">Iniciar sesión</RouterLink>
+            <!-- <RouterLink class="nav-link text-light" activeClass="active" to="/">Iniciar sesión</RouterLink> -->
           </span>
         </div>
       </div>

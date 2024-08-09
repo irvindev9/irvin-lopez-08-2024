@@ -26,3 +26,36 @@ export const getPokemonInfo = async (pokemonNumber: number) => {
 
   return data;
 }
+
+export const getEvolutionChain = async (pokemonNumber:number) => {
+
+  let { data } = await axios.get(`${url}pokemon-species/${pokemonNumber}`);
+
+  const evolutionChainUrl = data.evolution_chain.url;
+
+  const response = await axios.get(evolutionChainUrl);
+
+  data = response.data;
+
+  const evolutionChain = [];
+
+  let currentPokemon = data.chain;
+
+  while (currentPokemon.evolves_to.length > 0) {
+    evolutionChain.push({
+      name: currentPokemon.species.name,
+      url: currentPokemon.species.url,
+      id: Number(currentPokemon.species.url.split("/")[6]),
+    });
+
+    currentPokemon = currentPokemon.evolves_to[0];
+  }
+
+  evolutionChain.push({
+    name: currentPokemon.species.name,
+    url: currentPokemon.species.url,
+    id: Number(currentPokemon.species.url.split("/")[6]),
+  });
+
+  return evolutionChain;
+}

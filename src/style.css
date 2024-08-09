@@ -74,6 +74,24 @@ body {
   align-items: center;
 }
 
+.bg-primary-glass {
+  background: rgba(13, 110, 253, 0.47);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(13, 110, 253, 0.3);
+}
+
+.bg-success-glass {
+  background: rgba(66, 184, 131, 0.6666666666666666);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(66, 184, 131, 0.3);
+}
+
 .type-pokemon-grass {
   filter: drop-shadow(0 0 2em  rgba(155, 204, 80, 1));
 }

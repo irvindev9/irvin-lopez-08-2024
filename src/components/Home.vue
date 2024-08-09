@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import PokemonCard from './Home/PokemonCard.vue';
+import BannerTeamComplete from './Home/BannerTeamComplete.vue';
 import { getPokemonList } from '../api';
 import { usePokemonStore } from '../stores/PokemonStore';
 import { useSiteStore } from '../stores/SiteStore';
@@ -41,4 +42,5 @@ async function loadMore() {
       </div>
     </div>
   </div>
+  <BannerTeamComplete />
 </template>

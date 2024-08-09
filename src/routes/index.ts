@@ -1,5 +1,6 @@
 import Home from '../components/Home.vue';
 import Team from '../components/Team.vue';
+import PokemonInfo from '../components/PokemonInfo.vue';
 
 export default [
   {
@@ -11,5 +12,9 @@ export default [
     path: '/team',
     name: 'Team',
     component: Team,
-  }
+  },
+  { 
+    path: '/team/:id',
+    component: PokemonInfo
+  },
 ];

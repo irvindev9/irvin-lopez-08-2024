@@ -73,3 +73,82 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.type-pokemon-grass {
+  filter: drop-shadow(0 0 2em  rgba(155, 204, 80, 1));
+}
+.type-pokemon-poison {
+  filter: drop-shadow(0 0 2em  rgba(191, 143, 202, 1));
+}
+
+.type-pokemon-fire {
+  filter: drop-shadow(0 0 2em  rgba(253, 125, 36, 1));
+}
+
+.type-pokemon-flying {
+  filter: drop-shadow(0 0 2em  rgba(155, 204, 204, 1));
+}
+
+.type-pokemon-water {
+  filter: drop-shadow(0 0 2em  rgba(69, 146, 196, 1));
+}
+
+.type-pokemon-bug {
+  filter: drop-shadow(0 0 2em  rgba(168, 184, 32, 1));
+}
+
+.type-pokemon-normal {
+  filter: drop-shadow(0 0 2em  rgba(168, 168, 120, 1));
+}
+
+.type-pokemon-electric {
+  filter: drop-shadow(0 0 2em  rgba(251, 206, 53, 1));
+}
+
+.type-pokemon-ground {
+  filter: drop-shadow(0 0 2em  rgba(219, 181, 77, 1));
+}
+
+.type-pokemon-fairy {
+  filter: drop-shadow(0 0 2em  rgba(214, 133, 173, 1));
+}
+
+.type-pokemon-fighting {
+  filter: drop-shadow(0 0 2em  rgba(213, 103, 97, 1));
+}
+
+.type-pokemon-psychic {
+  filter: drop-shadow(0 0 2em  rgba(249, 85, 135, 1));
+}
+
+.type-pokemon-rock {
+  filter: drop-shadow(0 0 2em  rgba(182, 161, 54, 1));
+}
+
+.type-pokemon-steel {
+  filter: drop-shadow(0 0 2em  rgba(183, 183, 206, 1));
+}
+
+.type-pokemon-ice {
+  filter: drop-shadow(0 0 2em  rgba(126, 206, 206, 1));
+}
+
+.type-pokemon-ghost {
+  filter: drop-shadow(0 0 2em  rgba(123, 105, 188, 1));
+}
+
+.type-pokemon-dragon {
+  filter: drop-shadow(0 0 2em  rgba(119, 108, 192, 1));
+}
+
+.type-pokemon-dark {
+  filter: drop-shadow(0 0 2em  rgba(112, 88, 72, 1));
+}
+
+.type-pokemon-unknown {
+  filter: drop-shadow(0 0 2em  rgba(0, 0, 0, 1));
+}
+
+.type-pokemon-shadow {
+  filter: drop-shadow(0 0 2em  rgba(0, 0, 0, 1));
+}

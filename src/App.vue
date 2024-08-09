@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import Layout from './components/Layout.vue'
+import { onBeforeMount } from 'vue'
+import { usePokemonStore } from './stores/PokemonStore'
+
+const pokemonStore = usePokemonStore()
+
+onBeforeMount(() => {
+  pokemonStore.initializeApp()
+})
 </script>
 
 <template>

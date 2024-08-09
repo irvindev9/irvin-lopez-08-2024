@@ -2,25 +2,42 @@
 import { useRoute } from 'vue-router';
 import { getPokemonInfo, getEvolutionChain } from '../api';
 import { ref, onBeforeMount } from 'vue';
-import Type from './Partials/Type.vue';
+import { PokemonInfo, EvolutionChain } from '../models/Pokemon';
+import { useSiteStore } from '../stores/SiteStore';
 import Stats from './Team/Stats.vue';
+import Information from './PokemonInfo/Information.vue';
+import Evolutions from './PokemonInfo/Evolutions.vue';
 
 
 const route = useRoute()
 
-console.log(route.params.id)
+const pokemonInfo = ref<PokemonInfo>({
+  id: 0,
+  name: '',
+  types: [],
+  height: 0,
+  weight: 0,
+  stats: [],
+  cries: {
+    latest: '',
+    legacy: ''
+  }
+});
 
-const pokemonInfo = ref({});
-const evolutionChain = ref({});
+const evolutionChain = ref<EvolutionChain[]>([]);
+
+const siteStore = useSiteStore();
 
 onBeforeMount(async () => {
-  const info = await getPokemonInfo(route.params.id);
+  siteStore.setLoader(true);
+  const info = await getPokemonInfo(Number(route.params.id));
 
   pokemonInfo.value = info;
 
   const evolution = await getEvolutionChain(info.id);
 
   evolutionChain.value = evolution;
+  siteStore.turnOffLoader();
 });
 
 function getImageUrl(pokemonId: number) {
@@ -34,7 +51,7 @@ function getImageUrl(pokemonId: number) {
     <h1 class="text-center title">{{pokemonInfo.name}}</h1>
   </div>
   <div class="row justify-content-center">
-    <div class="col-12 col-md-4 col-lg-3 p-5">
+    <div class="col-12 col-md-4 col-lg-3 p-5" v-if="pokemonInfo.id">
       <img :src="getImageUrl(pokemonInfo.id)" class="img-fluid" alt="pokemon-img" :class="`type-pokemon-${pokemonInfo.types[0].type.name}`">
     </div>
   </div>
@@ -48,28 +65,8 @@ function getImageUrl(pokemonId: number) {
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionPokemonInfo">
-            <div class="accordion-body">
-              <div class="row">
-                <b>Tipo:</b>
-              </div>
-              <div class="row" v-if="pokemonInfo.types">
-                <Type v-for="(type, index) in pokemonInfo.types" :key="index" :type="type.type" />
-              </div>
-              <div class="row">
-                <p>
-                  <b>Altura:</b> {{(Number(pokemonInfo.height) * 10)}} cm
-                  <br>
-                  <b>Peso:</b> {{(Number(pokemonInfo.weight) / 10)}} kg
-                  <br>
-                  <b>Grito:</b>
-                </p>
-                <div class="row px-1" v-if="pokemonInfo.cries">
-                  <audio controls>
-                    <source :src="pokemonInfo.cries.latest" type="audio/ogg">
-                    Your browser does not support the audio element.
-                  </audio>
-                </div>
-              </div>
+            <div class="accordion-body" v-if="pokemonInfo.cries.latest != ''">
+              <Information :pokemonInfo="pokemonInfo" />
             </div>
           </div>
         </div>
@@ -89,18 +86,13 @@ function getImageUrl(pokemonId: number) {
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
               Evoluciones
             </button>
           </h2>
           <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionPokemonInfo">
             <div class="accordion-body">
-              <div class="pokemon-evolution-container justify-content-center text-center" v-if="evolutionChain">
-                <div v-for="evolution in evolutionChain" :key="evolution.id" class="pokemon-evolution-icon">
-                  <img :src="getImageUrl(evolution.id)" alt="pokemon-evolution" class="img-fluid">
-                  <p>{{evolution.name}}</p>
-                </div>
-              </div>
+              <Evolutions :evolutionChain="evolutionChain" />
             </div>
           </div>
         </div>
@@ -117,22 +109,5 @@ audio {
   width: 100%;
   padding: 0 1em;
   height: 30px;
-}
-.pokemon-evolution-container {
-  overflow-x:auto;
-  white-space: nowrap;
-  min-height: 50px;
-}
-
-.pokemon-evolution-icon {
-  display: inline-block;
-  margin: 0 5px;
-  width: 5rem;
-  padding: 0.5rem;
-}
-
-.pokemon-evolution-icon p {
-  text-transform: capitalize;
-  font-size: 0.8rem;
 }
 </style>

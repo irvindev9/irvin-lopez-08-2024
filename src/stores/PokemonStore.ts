@@ -18,7 +18,6 @@ export const usePokemonStore = defineStore('pokemon', {
       this.selectedPokemons = this.pokemonTeam.length;
     },
     removePokemon(pokemon: Pokemon) {
-      console.log({pokemon});
       this.pokemonTeam = this.pokemonTeam.filter((p) => p.name !== pokemon.name);
       this.selectedPokemons = this.pokemonTeam.length;
     },

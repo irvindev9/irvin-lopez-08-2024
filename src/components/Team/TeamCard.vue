@@ -1,13 +1,24 @@
 <script setup lang="ts">
-import { onMounted, onUpdated, ref } from 'vue';
+import { onBeforeMount, onUpdated, ref } from 'vue';
 import Type from '../Partials/Type.vue';
 import Stats from './Stats.vue';
-import { Pokemon } from '../../models/Pokemon';
+import { Pokemon, PokemonInfo as PokemonInfoType } from '../../models/Pokemon';
 import { useSiteStore } from '../../stores/SiteStore';
 import { usePokemonStore } from '../../stores/PokemonStore';
 import { getPokemonInfo } from '../../api';
 
-const pokemonInfo = ref({});
+const pokemonInfo = ref<PokemonInfoType>({
+  id: 0,
+  name: "",
+  types: [],
+  stats: [],
+  cries: {
+    latest: "",
+    legacy: ""
+  },
+  height: 0,
+  weight: 0
+});
 
 const props = defineProps<{
   pokemonNumber: number;
@@ -20,7 +31,7 @@ function getImageUrl(pokemonId: number) {
   return new URL(`../../assets/pokemons/${pokemonId.toString().padStart(3, "0")}.png`, import.meta.url).href;
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   getInfo(props.pokemonNumber);
 });
 
@@ -50,7 +61,7 @@ function removePokemonFromTeam() {
 </script>
 
 <template>
-  <div class="card mb-3 shadow-sm">
+  <div class="card mb-3 shadow-sm" v-if="pokemonInfo.id">
     <div class="row g-0">
       <div class="col-12 col-md-4 p-5" v-if="pokemonInfo.types">
         <img :src="getImageUrl(pokemonNumber)" class="img-fluid rounded-start pokemon-img" :class="`type-pokemon-${pokemonInfo.types[0].type.name}`" alt="...">
